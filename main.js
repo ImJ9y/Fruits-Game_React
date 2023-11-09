@@ -54,6 +54,7 @@ let interval = null;
 let num_suika = null;
 
 function addFruit(){
+  //새로운 과일이 생성
   const index = Math.floor(Math.random() * 5); //0-1 랜덤값 * 5
   const fruit = FRUITS[index];
   const body = Bodies.circle(300, 50, fruit.radius, {
@@ -63,7 +64,8 @@ function addFruit(){
     render: {
       sprite: {texture: `${fruit.name}.png`}
       },
-    restitution: 1
+    //bound 0~1
+    restitution: 0.2
     
   });
 
@@ -124,6 +126,7 @@ window.onkeyup = (event) => {
   }
 }
 
+//When same fruits touch
 Events.on(engine, "collisionStart",(event) => {
   event.pairs.forEach((collision) =>{
     if(collision.bodyA.index === collision.bodyB.index){
@@ -156,8 +159,8 @@ Events.on(engine, "collisionStart",(event) => {
     }
 
     if(
-      num_suika === 2 &&
-      !disableAction &&
+      num_suika === 2 ||
+      !disableAction ||
       (collision.bodyA.name === "topLine" || collision.bodyB.name === "topLine")){
       alert("Game over");
     }
